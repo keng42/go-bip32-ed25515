@@ -58,7 +58,7 @@ type Key struct {
 // NewMasterKey creates a new master extended key from a seed
 func NewMasterKey(seed []byte) (*Key, error) {
 	// Generate key and chaincode
-	hmac := hmac.New(sha512.New, []byte("ed25515 seed"))
+	hmac := hmac.New(sha512.New, []byte("ed25519 seed"))
 	_, err := hmac.Write(seed)
 	if err != nil {
 		return nil, err
@@ -117,7 +117,7 @@ func (key *Key) NewChildKey(childIdx uint32) (*Key, error) {
 			return nil, err
 		}
 		childKey.FingerPrint = fingerprint[:4]
-		childKey.Key = addPrivateKeys(intermediary[:32], key.Key)
+		childKey.Key = intermediary[:32]
 
 		// Validate key
 		err = validatePrivateKey(childKey.Key)
@@ -140,7 +140,7 @@ func (key *Key) NewChildKey(childIdx uint32) (*Key, error) {
 			return nil, err
 		}
 		childKey.FingerPrint = fingerprint[:4]
-		childKey.Key = addPublicKeys(keyBytes, key.Key)
+		childKey.Key = keyBytes
 	}
 
 	return childKey, nil
