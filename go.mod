@@ -1,4 +1,4 @@
-module github.com/tyler-smith/go-bip32
+module github.com/keng42/go-bip32-ed25519
 
 go 1.14
 
